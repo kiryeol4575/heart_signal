@@ -702,7 +702,7 @@ public:
 				fix_str(temp);
 				cout << npc.get_name() << "> ";
 				cout <<temp << endl << endl;
-				cout << "오랫동안 그녀와 결국 사귀게 되었다. 꿈만 같다. " << endl << endl;
+				cout << "오랫동안 좋아했던 그녀와 결국 사귀게 되었다. 꿈만 같다. " << endl << endl;
 
 				return 1;
 			}
