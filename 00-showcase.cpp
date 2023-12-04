@@ -146,8 +146,7 @@ public:
 		cout << "를 제외한 " << endl;
 
 		cout << "상대의 이름을 입력해 주세요: ";
-		cin.ignore();
-		getline(cin, name);
+		cin >> name;
 		cout << endl;
 	}
 
@@ -205,8 +204,7 @@ public:
 	virtual void set_relation(vector<string> name_list){
 
 		cout << "상대방과의 관계를 입력해 주세요: ";
-		cin.ignore();
-		getline(cin, relation);
+		cin >> relation;
 	}
 	virtual void print_look(vector<string> look_param_list, string gender, string age, int i){
 
@@ -236,7 +234,7 @@ public:
 		system(sys_cmd.c_str());	
 
 
-		cout << "Image Loding Done " << endl;
+		cout << "Image Loading Done " << endl;
 
 		sys_cmd = "tiv -w 100 -h 100 ./heart_signal_src/" + name + to_string(i) + ".png";
 		system(sys_cmd.c_str());
@@ -269,8 +267,7 @@ public:
 	void set(){
 		int i;
 		cout << "당신의 이름을 입력해 주세요: ";
-		cin.ignore();
-		getline(cin, name);
+		cin >> name;
 
 		cout << endl << "당신의 성별을 선택해 주세요: 1. 남성        2. 여성" << endl << "성별: ";
 
@@ -461,7 +458,7 @@ public:
 	void init_npc(){
 
 		cout << "[-----------------------------하트 시그널------------------------------]" << endl << endl;
-		cout << "입력창이 뜨기 전까지 입력을 기다려 주십시오. AI가 답변을 만드는데 시간이 걸립니다." << endl << endl;
+		cout << "입력창이 뜨기 전까지 입력을 기다려 주십시오. AI가 답변을 만드는데 시간이 걸립니다. 모든 문자열 입력은 띄어쓰기 없이 입력해 주십시오." << endl << endl;
 		user.set();
 		npc_main.set_seed(time(NULL));
 		npc_sub1.set_seed(100);
@@ -549,7 +546,7 @@ public:
 				cout << "그녀는 나의 대답을 좋아하는듯 수줍게 웃었다. " << endl << endl;
 			}
 			else if(her_react == 0){
-				cout << "그녀의 나의 대답이 썩 마음에 들었다. " << endl << endl;
+				cout << "그녀는 나의 대답이 썩 마음에 들었다. " << endl << endl;
 			}
 			else if(her_react ==2 ){
 				cout << "그녀는 나의 대답에 실망하는듯 인상을 찌뿌렸다. " << endl << endl;
@@ -574,8 +571,6 @@ public:
 
 
 		if(npc.get_love() < 0){
-			sys_cmd = "tiv -w 100 -h 100 ./heart_signal_src/" + npc.get_name() + to_string(2) + ".png";
-			system(sys_cmd.c_str());
 			ai_cmd = "그녀는 나에게 정이 다 떨어졌다. 그녀는 더이상 나를 만나지 않으려 한다. 그녀가 나에게 할 말을 그녀가 말하는 것처럼 반말로 써줘.";
 			ai_cmd += npc.get_note();
 			
@@ -583,6 +578,9 @@ public:
 			ai_output = openai::chat().create(ai_input);
 			temp = nlohmann::to_string(ai_output["choices"][0]["message"]["content"]);
 			fix_str(temp);
+
+			sys_cmd = "tiv -w 100 -h 100 ./heart_signal_src/" + npc.get_name() + to_string(2) + ".png";
+			system(sys_cmd.c_str());
 			cout << npc.get_name() << "> ";
 			cout << temp << endl << endl;
 			npc.set_gone();
@@ -650,7 +648,6 @@ public:
 			cout << endl;
 			prev_asr = choice[my_pick-1];
 
-			cout << user.get_name() << "> " << prev_asr << endl <<endl;
 
 			if(her_pick[my_pick-1] == 1){
 				npc.add_love(30);
@@ -670,6 +667,7 @@ public:
 			if(npc.get_love() < 100){
 				sys_cmd = "tiv -w 100 -h 100 ./heart_signal_src/" + npc.get_name() + to_string(2) + ".png";
 				system(sys_cmd.c_str());
+				cout << user.get_name() << "> " << prev_asr << endl <<endl;
 	
 				ai_cmd = "내가 고백을 했지만 그녀는 나를 좋아하진 않는 것 같다. 나의 고백 멘트는 ";
 				ai_cmd += prev_asr + "였다. " + "그녀가 나의 고백을 거절할 말을 세 문장으로 그녀가 말하는 것처럼 반말로 써줘. 번호는 빼줘. ";
@@ -691,6 +689,8 @@ public:
 			else if(npc.get_love() >= 100){
 				sys_cmd = "tiv -w 100 -h 100 ./heart_signal_src/" + npc.get_name() + to_string(1) + ".png";
 				system(sys_cmd.c_str());
+				cout << user.get_name() << "> " << prev_asr << endl <<endl;
+
 				ai_cmd = "내가 고백을 했는데 그녀도 나를 좋아하는 것 같다. 나의 고백 멘트는 ";
 				ai_cmd += prev_asr + "였다. ";
 				ai_cmd += "그녀가 나의 고백을 받아주는 말을 세 문장으로 그녀가 말하는 것처럼 반말로 써줘. 번호는 빼줘. ";
@@ -757,7 +757,7 @@ public:
 				cout << "그녀는 나의 대답을 좋아하는듯 수줍게 웃었다. " << endl << endl;
 			}
 			else if(her_react == 0){
-				cout << "그녀의 나의 대답이 썩 마음에 들었다. " << endl << endl;
+				cout << "그녀는 나의 대답이 썩 마음에 들었다. " << endl << endl;
 			}
 			else if(her_react == 2 ){
 				cout << "그녀는 나의 대답에 실망하는듯 인상을 찌뿌렸다. " << endl << endl;
